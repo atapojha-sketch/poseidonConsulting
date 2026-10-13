@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+:root {
+  /* Palette aligned to the approved reference design
+     (nova-consult-2.preview.emergentagent.com): deep navy ground,
+     teal primary, cyan support, generous 0.75rem radius. */
+  --background: #020617;
+  --foreground: #f8fafc;
+
+  --card: #0b1222;
+  --card-foreground: #f8fafc;
+
+  --primary: #1fbba6;
+  --primary-foreground: #04131a;
+  --accent: #1fbba6;
+  --accent-foreground: #04131a;
+  --ring: #1fbba6;
+
+  --cyan: #00a6f0;
+
+  --secondary: #0a101e;
+  --secondary-foreground: #f8fafc;
+  --muted: #0a101e;
+  --muted-foreground: #94a3b8;
+
+  --border: #1c2940;
+  --input: #1c2940;
+  --radius: 0.75rem;
+
+  --destructive: hsl(0 84.2% 60.2%);
+
+  /* Section washes */
+  --deep: #050b1a;
+  --deep-2: #081225;
+
+  /* Nautical chart line colour (contours, compass roses) */
+  --chart-line: rgba(31, 187, 166, 0.09);
+  --chart-line-strong: rgba(31, 187, 166, 0.22);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --color-cyan: var(--cyan);
+  --color-deep: var(--deep);
+  --color-deep-2: var(--deep-2);
+  --radius-base: var(--radius);
+  --font-display: var(--font-outfit);
+  --font-sans: var(--font-manrope);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* The parts the browser draws still belong to the design: caret, focus
+   ring, scrollbar and link underlines all take the brand teal. */
+input,
+textarea {
+  caret-color: var(--primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: calc(var(--radius) / 2);
+}
+
+a {
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+html {
+  scrollbar-color: var(--border) var(--background);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 5px;
+  border: 2px solid var(--background);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Stats, gauges and any figure columns line up digit-for-digit */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+/* Service-name ticker on the home page */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 36s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Compass needle settles back and forth — a slow, quiet instrument */
+@keyframes needle-swing {
+  from {
+    transform: rotate(-9deg);
+  }
+  to {
+    transform: rotate(11deg);
+  }
+}
+.compass-needle {
+  transform-origin: 100px 100px;
+  transform-box: view-box;
+  animation: needle-swing 7s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .compass-needle {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Case-study pages print as clean, ink-friendly briefings. The site's
+   text is near-white on navy, so every color is forced to ink here —
+   otherwise the PDF comes out white-on-white. */
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+  body,
+  main * {
+    background: transparent !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  body {
+    background: #ffffff !important;
+  }
+  main a {
+    text-decoration: none;
+  }
+  main svg {
+    display: none;
+  }
+}
